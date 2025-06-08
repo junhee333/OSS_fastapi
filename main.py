@@ -60,4 +60,3 @@ async def grade_student(student: StudentRequest):
     )
 
     return GradeResponse(student_summary=summary)
-
