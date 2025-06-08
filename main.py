@@ -1,15 +1,9 @@
-#from fastapi import FastAPI 
-#import uvicorn
-
-#@gpa_service.post("/docs")
-#async def printGrade() -> dict:
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, conint
 from typing import List, Literal
 
 gpa_service = FastAPI()
 
-# 학점 → 점수 변환 딕셔너리
 GRADE_TO_POINT = {
     "A+": 4.5,
     "A": 4.0,
@@ -22,20 +16,17 @@ GRADE_TO_POINT = {
     "F": 0.0,
 }
 
-# 과목 모델
 class Course(BaseModel):
     course_code: str
     course_name: str
     credits: conint(ge=1)
     grade: Literal["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F"]
 
-# 요청 모델
 class StudentRequest(BaseModel):
     student_id: str
     name: str
     courses: List[Course]
 
-# 응답 모델
 class StudentSummary(BaseModel):
     student_id: str
     name: str
@@ -45,7 +36,7 @@ class StudentSummary(BaseModel):
 class GradeResponse(BaseModel):
     student_summary: StudentSummary
 
-# POST endpoint
+
 @gpa_service.post("/grade", response_model=GradeResponse)
 async def grade_student(student: StudentRequest):
     total_points = 0.0
