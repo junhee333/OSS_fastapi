@@ -37,7 +37,7 @@ class GradeResponse(BaseModel):
     student_summary: StudentSummary
 
 
-@gpa_service.post("/grade", response_model=GradeResponse)
+@gpa_service.post("/score", response_model=GradeResponse)
 async def grade_student(student: StudentRequest):
     total_points = 0.0
     total_credits = 0
